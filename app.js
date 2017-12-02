@@ -1,11 +1,13 @@
 var app = new Vue({
     el: "#app",
     data: {
+        test: '',
         title: "Contas a pagar",
         menu: [
             {id: 0, name: "Listar contas"},
             {id: 1, name: "Criar conta"}
         ],
+        activedView: 1,
         contas: [
             { data_vcto: '20/08/2016', descricao: 'Conta de luz', valor: 151.23, situacao: 1 },
             { data_vcto: '21/08/2016', descricao: 'Conta de água', valor: 82.10, situacao: 0 },
@@ -28,8 +30,8 @@ var app = new Vue({
         }
     },
     methods: {
-        showView: function( $number) {
-            console.log($number);
+        showView: function(id) {
+            this.activedView = id;
         }
 
     }
