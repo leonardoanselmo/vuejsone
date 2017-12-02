@@ -16,8 +16,9 @@
             </li>
         </ul>
     </nav>
-    <table border="1" cellpadding="10">
-        <thead>
+    <div>
+        <table border="1" cellpadding="10">
+            <thead>
             <tr>
                 <th>#</th>
                 <th>Vencimento</th>
@@ -25,8 +26,8 @@
                 <th>Valor</th>
                 <th>Situação</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <tr v-for="(index, conta) in contas">
                 <td>{{ index + 1 }}</td>
                 <td>{{ conta.data_vcto }}</td>
@@ -34,8 +35,9 @@
                 <td>{{ conta.valor }}</td>
                 <td>{{ conta.situacao }}</td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 
     <script type="text/javascript" src="node_modules/vue/dist/vue.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
