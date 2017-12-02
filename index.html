@@ -16,7 +16,7 @@
             </li>
         </ul>
     </nav>
-    <div>
+    <div v-if="activedView == 0">
         <table border="1" cellpadding="10">
             <thead>
             <tr>
@@ -37,6 +37,14 @@
             </tr>
             </tbody>
         </table>
+    </div>
+    <div v-if="activedView == 1">
+        <form name="form">
+            Test: <input type="text" v-model="test">
+            {{ test }}
+            
+
+        </form>
     </div>
 
     <script type="text/javascript" src="node_modules/vue/dist/vue.min.js"></script>
