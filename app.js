@@ -43,10 +43,18 @@ var menuComponent = Vue.extend({
         },
     }
 });
-Vue.component('menu-component', menuComponent);
+
 
 var listacontasComponent = Vue.extend({
     template: `
+    <style type="text/css">
+        .pago {
+            color: green;
+        }
+        .nao-pago {
+            color: red;
+        }    
+    </style>
     <table border="1" cellpadding="10">
         <thead>
         <tr>
@@ -102,7 +110,7 @@ var listacontasComponent = Vue.extend({
         }
     }
 });
-Vue.component('lista-contas-component', listacontasComponent);
+
 
 var criarcontasComponent = Vue.extend({
     template: `
@@ -143,7 +151,7 @@ var criarcontasComponent = Vue.extend({
     methods: {
         submit: function(){
             if(this.formType == 'insert'){
-                this.contas.push(this.camposConta);
+                this.$parent.$children[1].contas.push(this.camposConta);
             }
 
             this.camposConta = {
@@ -153,20 +161,19 @@ var criarcontasComponent = Vue.extend({
                 situacao: false
             }
 
-            this.activedView = 0;
+            this.$parent.activedView = 0;
         }
     }
 });
-Vue.component('criar-contas-component', criarcontasComponent);
+
 var appComponent = Vue.extend({
+    components: {
+      'menu-component': menuComponent,
+      'lista-contas-component': listacontasComponent,
+      'criar-contas-component': criarcontasComponent
+    },
     template: `
-    <style type="text/css">
-        .pago {
-            color: green;
-        }
-        .nao-pago {
-            color: red;
-        }
+    <style type="text/css">        
         .red {
             color: red;
         }
@@ -179,18 +186,17 @@ var appComponent = Vue.extend({
         .minha-classe {
             background-color: beige;
         }
-
     </style>
     <h1>{{ title }}</h1>
     <h3 :class="{'gray': status === false, 'green': status === 0, 'red': status > 0}">
-        {{ status | statusGeneral }}</h3>
-    <menu-component></menu-component>
-    
-    <div v-if="activedView == 0">
+        {{ status | statusGeneral }}
+    </h3>
+    <menu-component></menu-component>    
+    <div v-show="activedView == 0">
         <lista-contas-component></lista-contas-component>        
     </div>
-    <div v-if="activedView == 1">
-        <criar-contas-component v-bind:camposConta="camposConta" v-bind:form-type="formType"></criar-contas-component>        
+    <div v-show="activedView == 1">
+        <criar-contas-component v-bind:campos-conta.sync="camposConta" v-bind:form-type="formType"></criar-contas-component>        
     </div>
     `,
     data: function(){
@@ -220,6 +226,9 @@ var appComponent = Vue.extend({
             }
             return count;
         }
+    },
+    methods: {
+
     }
 });
 Vue.component('app-component', appComponent);
