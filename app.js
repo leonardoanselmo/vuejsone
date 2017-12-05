@@ -36,9 +36,9 @@ var menuComponent = Vue.extend({
     },
     methods: {
         showView: function(id) {
-            this.$parent.activedView = id;
+            this.$dispatch('change-activedview', id);
             if(id == 1){
-                this.$parent.formType = 'insert';
+                this.$dispatch('change-formtype', 'insert');
             }
         },
     }
@@ -98,15 +98,20 @@ var listacontasComponent = Vue.extend({
     },
     methods: {
         editarConta: function(camposConta) {
-            this.$parent.camposConta = camposConta;
-            this.$parent.activedView = 1;
-            this.$parent.formType = 'update';
+            this.$dispatch('change-bill', camposConta);
+            this.$dispatch('change-activedview', 1);
+            this.$dispatch('change-formtype', 'update');
         },
         excluirConta: function(camposConta){
             if(confirm('Deseja excluir esta conta? ')){
                 this.contas.$remove(camposConta);
             }
 
+        }
+    },
+    events: {
+        'new-bill': function(bill){
+            this.contas.push(bill);
         }
     }
 });
@@ -134,9 +139,9 @@ var criarcontasComponent = Vue.extend({
         <input type="submit" value="Enviar"/>
     </form>    
     `,
-    props: ['camposConta', 'formType'],
     data: function() {
         return {
+            formType: 'insert',
             descricaoContas: [
                 'Conta de luz',
                 'Conta de água',
@@ -145,13 +150,19 @@ var criarcontasComponent = Vue.extend({
                 'Cartão de Crédito',
                 'Empréstimo',
                 'Gasolina'
-            ]
+            ],
+            camposConta: {
+                data_vcto: '',
+                descricao: '',
+                valor: '',
+                situacao: false
+            }
         };
     },
     methods: {
         submit: function(){
             if(this.formType == 'insert'){
-                this.$parent.$children[1].contas.push(this.camposConta);
+                this.$dispatch('new-bill', this.camposConta);
             }
 
             this.camposConta = {
@@ -161,7 +172,15 @@ var criarcontasComponent = Vue.extend({
                 situacao: false
             }
 
-            this.$parent.activedView = 0;
+            this.$dispatch('change-activedview', 0);
+        }
+    },
+    events: {
+        'change-formtype': function(formType){
+            this.formType = formType;
+        },
+        'change-bill': function(bill){
+            this.camposConta = bill;
         }
     }
 });
@@ -193,42 +212,47 @@ var appComponent = Vue.extend({
     </h3>
     <menu-component></menu-component>    
     <div v-show="activedView == 0">
-        <lista-contas-component></lista-contas-component>        
+        <lista-contas-component v-ref:bill-list-component></lista-contas-component>        
     </div>
     <div v-show="activedView == 1">
-        <criar-contas-component v-bind:campos-conta.sync="camposConta" v-bind:form-type="formType"></criar-contas-component>        
+        <criar-contas-component v-bind:campos-conta.sync="camposConta"></criar-contas-component>        
     </div>
     `,
     data: function(){
         return {
-            test: '',
             title: "Contas a pagar",
-            formType: 'insert',
-            activedView: 0,
-            camposConta: {
-                data_vcto: '',
-                descricao: '',
-                valor: '',
-                situacao: false
-            },
+            activedView: 0
         };
     },
     computed: {
         status: function () {
-            if(!this.contas.length){
+            var billListComponent = this.$refs.billListComponent
+            if(!billListComponent.contas.length){
                 return false;
             }
             var count = 0;
-            for (var i in this.contas) {
-                if (!this.contas[i].situacao) {
+            for (var i in billListComponent.contas) {
+                if (!billListComponent.contas[i].situacao) {
                     count++;
                 }
             }
             return count;
         }
     },
-    methods: {
-
+    methods: {},
+    events: {
+        'change-activedview': function(activedView){
+            this.activedView = activedView;
+        },
+        'change-formtype': function(formType){
+            this.$broadcast('change-formtype', formType);
+        },
+        'change-bill': function(bill){
+            this.$broadcast('change-bill', bill);
+        },
+        'new-bill': function(bill){
+            this.$broadcast('new-bill', bill);
+        }
     }
 });
 Vue.component('app-component', appComponent);
