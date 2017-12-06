@@ -40,10 +40,16 @@ window.criarcontasComponent = Vue.extend({
             }
         };
     },
+    created: function(){
+        if(this.$route.name == 'bill.update'){
+            this.formType = 'update';
+            this.getBill(this.$route.params.index);
+        }
+    },
     methods: {
         submit: function(){
             if(this.formType == 'insert'){
-                this.$dispatch('new-bill', this.camposConta);
+                this.$root.$children[0].contas.push(this.camposConta);
             }
 
             this.camposConta = {
@@ -52,16 +58,11 @@ window.criarcontasComponent = Vue.extend({
                 valor: '',
                 situacao: false
             }
-
-            this.$dispatch('change-activedview', 0);
-        }
-    },
-    events: {
-        'change-formtype': function(formType){
-            this.formType = formType;
+            this.$router.go({name: 'bill.list'});
         },
-        'change-bill': function(bill){
-            this.camposConta = bill;
+        getBill: function(index){
+            var bills = this.$root.$children[0].contas;
+            this.camposConta = bills[index];
         }
     }
 });
