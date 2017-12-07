@@ -1,9 +1,9 @@
-window.billPayComponent = Vue.extend({
-    components: {
+window.billReceiveComponent = Vue.extend({
+    /*components: {
         'menu-component': billPayMenuComponent
-    },
+    },*/
     template: `
-    <style type="text/css">        
+    <!--<style type="text/css">        
         .red {
             color: red;
         }
@@ -16,20 +16,21 @@ window.billPayComponent = Vue.extend({
         .minha-classe {
             background-color: beige;
         }
-    </style>
+    </style>-->
     <h1>{{ title }}</h1>
-    <h3 :class="{'gray': status === false, 'green': status === 0, 'red': status > 0}">
+    <!--<h3 :class="{'gray': status === false, 'green': status === 0, 'red': status > 0}">
         {{ status | statusGeneral }}
     </h3>
     <menu-component></menu-component>
-    <router-view></router-view>   
+    <router-view></router-view>-->   
     
     `,
     data: function(){
         return {
-            title: "Contas a pagar",
+            title: "Contas a receber",
         };
     },
+    /*
     computed: {
         status: function () {
             var contas = this.$root.$children[0].billsPay;
@@ -45,4 +46,5 @@ window.billPayComponent = Vue.extend({
             return count;
         }
     }
+    */
 });
