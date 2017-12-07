@@ -29,7 +29,7 @@ window.billPayListComponent = Vue.extend({
                 {{ conta.situacao | situacaoLabel }}
             </td>
             <td>
-                <a v-link="{ name: 'bill.update', params: {index: index} }">Editar</a> |
+                <a v-link="{ name: 'bill-pay.update', params: {index: index} }">Editar</a> |
                 <a href="#" @click.prevent="excluirConta(conta)">Excluir</a>
             </td>
         </tr>
