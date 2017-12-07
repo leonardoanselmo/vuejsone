@@ -2,20 +2,20 @@ window.billPayCreateComponent = Vue.extend({
     template: `
     <form name="form" @submit.prevent="submit">
         <label>Vencimento: </label>
-        <input type="text" v-model="camposConta.data_vcto"/>
+        <input type="text" v-model="camposConta.date_due"/>
         <br/><br/>
         <label>Nome: </label>
-        <select v-model="camposConta.descricao">
+        <select v-model="camposConta.name">
             <option v-for="conta in descricaoContas" value="{{ conta }}">
                 {{ conta }}
             </option>
         </select>
         <br/><br/>
         <label>Valor: </label>
-        <input type="text" v-model="camposConta.valor"/>
+        <input type="text" v-model="camposConta.value"/>
         <br/><br/>
         <label>Pago?: </label>
-        <input type="checkbox" v-model="camposConta.situacao"/>
+        <input type="checkbox" v-model="camposConta.done"/>
         <br/><br/>
         <input type="submit" value="Enviar"/>
     </form>    
@@ -33,10 +33,10 @@ window.billPayCreateComponent = Vue.extend({
                 'Gasolina'
             ],
             camposConta: {
-                data_vcto: '',
-                descricao: '',
-                valor: '',
-                situacao: false
+                date_due: '',
+                name: '',
+                value: '',
+                done: false
             }
         };
     },
