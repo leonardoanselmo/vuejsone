@@ -1,4 +1,4 @@
-window.criarcontasComponent = Vue.extend({
+window.billPayCreateComponent = Vue.extend({
     template: `
     <form name="form" @submit.prevent="submit">
         <label>Vencimento: </label>
@@ -49,7 +49,7 @@ window.criarcontasComponent = Vue.extend({
     methods: {
         submit: function(){
             if(this.formType == 'insert'){
-                this.$root.$children[0].contas.push(this.camposConta);
+                this.$root.$children[0].billsPay.push(this.camposConta);
             }
 
             this.camposConta = {
@@ -61,7 +61,7 @@ window.criarcontasComponent = Vue.extend({
             this.$router.go({name: 'bill.list'});
         },
         getBill: function(index){
-            var bills = this.$root.$children[0].contas;
+            var bills = this.$root.$children[0].billsPay;
             this.camposConta = bills[index];
         }
     }

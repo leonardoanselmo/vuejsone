@@ -1,12 +1,12 @@
 var router = new VueRouter();
 var mainComponent = Vue.extend({
     components: {
-        'bill-pay-component': billPayComponent
+        'bill-component': billComponent
     },
-    template: '<bill-pay.component></bill-pay.component>',
+    template: '<bill-component></bill-component>',
     data: function(){
         return {
-            contas: [
+            billsPay: [
                 {data_vcto: '20/08/2016', descricao: 'Conta de luz', valor: 151.23, situacao: true},
                 {data_vcto: '21/08/2016', descricao: 'Conta de água', valor: 82.10, situacao: false},
                 {data_vcto: '22/08/2016', descricao: 'Conta de telefone', valor: 45.10, situacao: false},
@@ -20,20 +20,29 @@ var mainComponent = Vue.extend({
 })
 
 router.map({
-    '/bills': {
-        name: 'bill.list',
-        component: listacontasComponent
+    '/bill-pays': {
+        component: billPayComponent,
+        subRoutes: {
+            '/': {
+                name: 'bill-pay.list',
+                component: billPayListComponent
+            },
+            '/create': {
+                name: 'bill-pay.create',
+                component: billPayCreateComponent
+            },
+            '/:index/update': {
+                name: 'bill-pay.update',
+                component: billPayCreateComponent
+            },
+        }
     },
-    'bill/create': {
-        name: 'bill.create',
-        component: criarcontasComponent
-    },
-    'bill/:index/update': {
-        name: 'bill.update',
-        component: criarcontasComponent
+    'bill-receives': {
+        name: 'bill-receive',
+        component: billReceiveComponent
     },
     '*': {
-        component: listacontasComponent
+        component: billPayListComponent
     }
 });
 
@@ -44,5 +53,5 @@ router.start({
 }, '#app');
 
 router.redirect({
-    '*': '/bills'
+    '*': '/bill-pays'
 });

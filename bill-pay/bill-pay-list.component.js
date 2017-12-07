@@ -1,4 +1,4 @@
-window.listaPaycontasComponent = Vue.extend({
+window.billPayListComponent = Vue.extend({
     template: `
     <style type="text/css">
         .pago {
@@ -38,13 +38,13 @@ window.listaPaycontasComponent = Vue.extend({
     `,
     data: function() {
         return {
-            contas: this.$root.$children[0].contas
+            contas: this.$root.$children[0].billsPay
         };
     },
     methods: {
         excluirConta: function(camposConta){
             if(confirm('Deseja excluir esta conta? ')){
-                this.$root.$children[0].contas.$remove(camposConta);
+                this.$root.$children[0].billsPay.$remove(camposConta);
             }
 
         }
