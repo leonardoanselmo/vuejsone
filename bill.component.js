@@ -1,18 +1,19 @@
-window.billPayMenuComponent = Vue.extend({
+window.billComponent = Vue.extend({
     template: `
     <nav>
         <ul>
             <li v-for="item in menu">
-                <a v-link="{path: item.url}">{{ item.name }}</a>
+                <a v-link="{name: item.routerName}">{{ item.name }}</a>
             </li>
         </ul>
     </nav>
+    <router-view></router-view>
     `,
     data: function() {
         return {
             menu: [
-                {id: 0, name: "Listar contas", url: '/bills'},
-                {id: 1, name: "Criar conta", url: '/bill/create'}
+                { name: "Contas a pagar", routerName: 'bill-pay.list'},
+                { name: "Contas a receber", routerName: 'bill-receive'}
             ],
         };
     }
