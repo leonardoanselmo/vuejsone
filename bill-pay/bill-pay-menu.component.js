@@ -3,7 +3,7 @@ window.billPayMenuComponent = Vue.extend({
     <nav>
         <ul>
             <li v-for="item in menu">
-                <a v-link="{path: item.url}">{{ item.name }}</a>
+                <a v-link="{name: item.routeName}">{{ item.name }}</a>
             </li>
         </ul>
     </nav>
@@ -11,8 +11,8 @@ window.billPayMenuComponent = Vue.extend({
     data: function() {
         return {
             menu: [
-                {id: 0, name: "Listar contas", url: '/bills'},
-                {id: 1, name: "Criar conta", url: '/bill/create'}
+                {id: 0, name: "Listar contas", routeName: 'bill-pay.list'},
+                {id: 1, name: "Criar conta", routeName: 'bill-pay.create'}
             ],
         };
     }
