@@ -20,13 +20,13 @@ window.billPayListComponent = Vue.extend({
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(index, conta) in contas">
+        <tr v-for="(index, o) in bills">
             <td>{{ index + 1 }}</td>
-            <td>{{ conta.data_vcto }}</td>
-            <td>{{ conta.descricao }}</td>
-            <td>{{ conta.valor | currency 'R$ ' 2 }}</td>
-            <td class="minha-classe" :class="{'pago': conta.situacao, 'nao-pago': !conta.situacao}">
-                {{ conta.situacao | situacaoLabel }}
+            <td>{{ o.date_due }}</td>
+            <td>{{ o.name }}</td>
+            <td>{{ o.value | currency 'R$ ' 2 }}</td>
+            <td class="minha-classe" :class="{'pago': o.done, 'nao-pago': !o.done}">
+                {{ o.done | situacaoLabel }}
             </td>
             <td>
                 <a v-link="{ name: 'bill-pay.update', params: {index: index} }">Editar</a> |
@@ -36,10 +36,19 @@ window.billPayListComponent = Vue.extend({
         </tbody>
      </table>        
     `,
+    http: {
+        root: 'http://192.168.10.10:8000/api'
+    },
     data: function() {
         return {
-            contas: this.$root.$children[0].billsPay
+            // contas: this.$root.$children[0].billsPay
+            bills: []
         };
+    },
+    created: function(){
+        this.$http.get('bills').then(function(response){
+            this.bills = response.data;
+        });
     },
     methods: {
         excluirConta: function(camposConta){
