@@ -12,8 +12,8 @@ window.billComponent = Vue.extend({
     data: function() {
         return {
             menu: [
-                { name: "Contas a pagar", routerName: 'bill-pay.list'},
-                { name: "Contas a receber", routerName: 'bill-receive'}
+                { name: "Contas a Pagar", routerName: 'bill-pay.list'},
+                { name: "Contas a Receber", routerName: 'bill-receive'}
             ],
         };
     }
