@@ -20,7 +20,7 @@ window.billPayListComponent = Vue.extend({
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(index, o) in bills">
+        <tr v-for="(index, o) in bills">                
             <td>{{ index + 1 }}</td>
             <td>{{ o.date_due }}</td>
             <td>{{ o.name }}</td>
