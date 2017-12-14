@@ -52,7 +52,7 @@ window.billPayListComponent = Vue.extend({
     },
     methods: {
         excluirConta: function(camposConta){
-            if(confirm('Deseja excluir esta conta? ')){
+            if(confirm('Deseja excluir esta conta?')){
                 this.$root.$children[0].billsPay.$remove(camposConta);
             }
 
