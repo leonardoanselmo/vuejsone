@@ -2,28 +2,31 @@ window.billPayCreateComponent = Vue.extend({
     template: `
     <form name="form" @submit.prevent="submit">
         <label>Vencimento: </label>
-        <input type="text" v-model="camposConta.date_due"/>
+        <input type="text" v-model="bill.date_due"/>
         <br/><br/>
         <label>Nome: </label>
-        <select v-model="camposConta.name">
-            <option v-for="conta in descricaoContas" value="{{ conta }}">
+        <select v-model="bill.name">
+            <option v-for="conta in names" value="{{ conta }}">
                 {{ conta }}
             </option>
         </select>
         <br/><br/>
         <label>Valor: </label>
-        <input type="text" v-model="camposConta.value"/>
+        <input type="text" v-model="bill.value"/>
         <br/><br/>
         <label>Pago?: </label>
-        <input type="checkbox" v-model="camposConta.done"/>
+        <input type="checkbox" v-model="bill.done"/>
         <br/><br/>
         <input type="submit" value="Enviar"/>
     </form>    
     `,
+    http: {
+        root: 'http://192.168.10.10:8000/api'
+    },
     data: function() {
         return {
             formType: 'insert',
-            descricaoContas: [
+            names: [
                 'Conta de luz',
                 'Conta de água',
                 'Conta de telefone',
@@ -32,37 +35,36 @@ window.billPayCreateComponent = Vue.extend({
                 'Empréstimo',
                 'Gasolina'
             ],
-            camposConta: {
+            bill: {
                 date_due: '',
                 name: '',
-                value: '',
+                value: 0,
                 done: false
             }
         };
     },
     created: function(){
-        if(this.$route.name == 'bill.update'){
+        if(this.$route.name == 'bill-pay.update'){
             this.formType = 'update';
-            this.getBill(this.$route.params.index);
+            this.getBill(this.$route.params.id);
         }
     },
     methods: {
         submit: function(){
             if(this.formType == 'insert'){
-                this.$root.$children[0].billsPay.push(this.camposConta);
+                this.$http.post('bills', this.bill).then(function(response) {
+                    this.$router.go({name: 'bill-pay.list'});
+                });
+            } else {
+                this.$http.put('bills/'+this.bill.id, this.bill).then(function(response) {
+                    this.$router.go({name: 'bill-pay.list'});
+                });
             }
-
-            this.camposConta = {
-                data_vcto: '',
-                descricao: '',
-                valor: '',
-                situacao: false
-            }
-            this.$router.go({name: 'bill.list'});
         },
-        getBill: function(index){
-            var bills = this.$root.$children[0].billsPay;
-            this.camposConta = bills[index];
+        getBill: function(id){
+            this.$http.get('bills/'+id).then(function(response){
+                this.bill = response.data;
+            });
         }
     }
 });
