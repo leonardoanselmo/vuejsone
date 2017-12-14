@@ -20,7 +20,7 @@ window.billPayListComponent = Vue.extend({
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(index, o) in bills">                
+        <tr v-for="(index,o) in bills">                
             <td>{{ index + 1 }}</td>
             <td>{{ o.date_due }}</td>
             <td>{{ o.name }}</td>
@@ -29,8 +29,8 @@ window.billPayListComponent = Vue.extend({
                 {{ o.done | situacaoLabel }}
             </td>
             <td>
-                <a v-link="{ name: 'bill-pay.update', params: {index: index} }">Editar</a> |
-                <a href="#" @click.prevent="excluirConta(conta)">Excluir</a>
+                <a v-link="{ name: 'bill-pay.update', params: {id: o.id} }">Editar</a> |
+                <a href="#" @click.prevent="excluirConta(o)">Excluir</a>
             </td>
         </tr>
         </tbody>
@@ -51,9 +51,11 @@ window.billPayListComponent = Vue.extend({
         });
     },
     methods: {
-        excluirConta: function(camposConta){
+        excluirConta: function(bill){
             if(confirm('Deseja excluir esta conta?')){
-                this.$root.$children[0].billsPay.$remove(camposConta);
+                this.$http.delete('bills/'+bill.id).then(function(response) {
+                    this.bills.$remove(bill);
+                });
             }
 
         }
