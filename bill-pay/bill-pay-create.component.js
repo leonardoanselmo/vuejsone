@@ -53,10 +53,12 @@ window.billPayCreateComponent = Vue.extend({
         submit: function(){
             if(this.formType == 'insert'){
                 this.$http.post('bills', this.bill).then(function(response) {
+                    this.$dispatch('change-status');
                     this.$router.go({name: 'bill-pay.list'});
                 });
             } else {
                 this.$http.put('bills/'+this.bill.id, this.bill).then(function(response) {
+                    this.$dispatch('change-status');
                     this.$router.go({name: 'bill-pay.list'});
                 });
             }
