@@ -20,9 +20,6 @@ window.billPayCreateComponent = Vue.extend({
         <input type="submit" value="Enviar"/>
     </form>    
     `,
-    http: {
-        root: 'http://192.168.10.10:8000/api'
-    },
     data: function() {
         return {
             formType: 'insert',
@@ -51,21 +48,23 @@ window.billPayCreateComponent = Vue.extend({
     },
     methods: {
         submit: function(){
+            var self = this;
             if(this.formType == 'insert'){
-                this.$http.post('bills', this.bill).then(function(response) {
-                    this.$dispatch('change-status');
-                    this.$router.go({name: 'bill-pay.list'});
+                Bill.save({}, this.bill).then(function(response) {
+                    self.$dispatch('change-info');
+                    self.$router.go({name: 'bill-pay.list'});
                 });
             } else {
-                this.$http.put('bills/'+this.bill.id, this.bill).then(function(response) {
-                    this.$dispatch('change-status');
-                    this.$router.go({name: 'bill-pay.list'});
+                Bill.update({id: this.bill.id}, this.bill).then(function(response) {
+                    self.$dispatch('change-info');
+                    self.$router.go({name: 'bill-pay.list'});
                 });
             }
         },
         getBill: function(id){
-            this.$http.get('bills/'+id).then(function(response){
-                this.bill = response.data;
+            var self = this;
+            Bill.get({id: id}).then(function(response){
+                self.bill = response.data;
             });
         }
     }
