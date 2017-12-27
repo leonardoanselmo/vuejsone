@@ -3,7 +3,7 @@ window.billReceiveComponent = Vue.extend({
         'menu-component': billPayMenuComponent
     },*/
     template: `
-    <!--<style type="text/css">        
+    <style type="text/css">        
         .red {
             color: red;
         }
@@ -16,7 +16,7 @@ window.billReceiveComponent = Vue.extend({
         .minha-classe {
             background-color: beige;
         }
-    </style>-->
+    </style>
     <h1>{{ title }}</h1>
     <!--<h3 :class="{'gray': status === false, 'green': status === 0, 'red': status > 0}">
         {{ status | statusGeneral }}
