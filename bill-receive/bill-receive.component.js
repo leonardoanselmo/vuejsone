@@ -30,7 +30,7 @@ window.billReceiveComponent = Vue.extend({
             title: "Contas a receber",
         };
     },
-    /*
+
     computed: {
         status: function () {
             var contas = this.$root.$children[0].billsPay;
@@ -46,5 +46,5 @@ window.billReceiveComponent = Vue.extend({
             return count;
         }
     }
-    */
+    
 });
