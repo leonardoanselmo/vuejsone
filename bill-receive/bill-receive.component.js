@@ -46,5 +46,5 @@ window.billReceiveComponent = Vue.extend({
             return count;
         }
     }
-    
+
 });
