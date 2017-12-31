@@ -1,7 +1,7 @@
 window.billReceiveComponent = Vue.extend({
-    /*components: {
+    components: {
         'menu-component': billPayMenuComponent
-    },*/
+    },
     template: `
     <style type="text/css">        
         .red {
