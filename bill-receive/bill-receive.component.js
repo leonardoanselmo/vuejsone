@@ -22,8 +22,7 @@ window.billReceiveComponent = Vue.extend({
         {{ status | statusGeneral }}
     </h3>
     <menu-component></menu-component>
-    <router-view></router-view>   
-    
+    <router-view></router-view>    
     `,
     data: function(){
         return {
