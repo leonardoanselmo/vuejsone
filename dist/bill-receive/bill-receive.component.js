@@ -1,8 +1,10 @@
+'use strict';
+
 window.billReceiveComponent = Vue.extend({
     components: {
         'menu-component': billPayMenuComponent
-    },
-    template: `
+    }
+    /*template: `
     <style type="text/css">        
         .red {
             color: red;
@@ -29,8 +31,7 @@ window.billReceiveComponent = Vue.extend({
             title: "Contas a receber",
         };
     },
-
-    computed: {
+     computed: {
         status: function () {
             var contas = this.$root.$children[0].billsPay;
             if(!contas.length){
@@ -45,5 +46,5 @@ window.billReceiveComponent = Vue.extend({
             return count;
         }
     }
-
+    */
 });
